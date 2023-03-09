@@ -1,0 +1,90 @@
+<html>
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        #topright {
+            position: absolute;
+            right: 25px;
+            /* moved to the left a little bit */
+            top: 0;
+            display: block;
+            height: 75px;
+            /* made smaller */
+            width: 75px;
+            /* made smaller */
+            background: url(https://localist-images.azureedge.net/photos/610110/huge/36508146e3266908e0cf7923d996b6cb2d8ef307.jpg) no-repeat;
+            background-size: contain;
+            /* removed white space */
+            text-indent: -999em;
+            text-decoration: none;
+        }
+        
+        body {
+            background-color: royalblue;
+        }
+        
+        h2 {
+            text-align: center;
+            margin-top: 50px;
+        }
+        
+        input[type="text"] {
+            width: 50%;
+            height: 30px;
+            font-size: 18px;
+            margin: 20px 25% 10px 25%;
+            text-align: center;
+        }
+        
+        button {
+            width: 20%;
+            height: 40px;
+            font-size: 18px;
+            margin: 10px 40% 20px 40%;
+        }
+        
+        #recipes {
+            width: 80%;
+            margin: 20px 10% 10px 10%;
+            text-align: center;
+        }
+        
+        #recipes h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        
+        #recipes img {
+            width: 50%;
+            height: auto;
+        }
+    </style>
+    <script>
+        $(document).ready(function() {
+            $('#generate-recipe').click(function() {
+                $('#recipes').empty();
+                var ingredients = $('#ingredients').val();
+                $.ajax({
+                    url: "https://api.spoonacular.com/recipes/complexSearch?apiKey=9a89fec2be234ef4911526c1812d043a&query=" + ingredients,
+                    success: function(data) {
+                        for (var i = 0; i < 5; i++) {
+                            var recipe = data.results[i];
+                            $('#recipes').append("<h1>" + recipe.title + "</h1>" + "<img src='" + recipe.image + "'>");
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div id="topright"></div>
+    <h2>Enter ingredients separated by a comma:</h2>
+    <input type="text" id="ingredients">
+    <button id="generate-recipe">Generate Recipe</button>
+    <div id="recipes"></div>
+</body>
+
+</html>
